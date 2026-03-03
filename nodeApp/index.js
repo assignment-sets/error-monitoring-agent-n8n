@@ -8,9 +8,10 @@ import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
 const logger = pino({ level: 'info' });
-const pinoMiddleware = pinoHttp({ 
+const pinoMiddleware = pinoHttp({
     logger,
-    redact: ['req.headers.cookie', 'req.headers.authorization'] 
+    genReqId: (req) => req.headers['x-trace-id'] || uuidv4(), // Generate ID here to avoid empty trace id for errors
+    redact: ['req.headers.cookie', 'req.headers.authorization']
 });
 
 const app = express();
