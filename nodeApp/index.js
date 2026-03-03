@@ -10,8 +10,13 @@ import { v4 as uuidv4 } from 'uuid';
 const logger = pino({ level: 'info' });
 const pinoMiddleware = pinoHttp({
     logger,
-    genReqId: (req) => req.headers['x-trace-id'] || uuidv4(), // Generate ID here to avoid empty trace id for errors
-    redact: ['req.headers.cookie', 'req.headers.authorization']
+    genReqId: (req) => req.headers['x-trace-id'] || uuidv4(),
+    redact: ['req.headers.cookie', 'req.headers.authorization'],
+    customLogLevel: (req, res, err) => {
+        if (res.statusCode >= 500 || err) return 'error';
+        if (res.statusCode >= 400) return 'warn';
+        return 'info';
+    }
 });
 
 const app = express();
