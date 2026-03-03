@@ -1,0 +1,16 @@
+services:
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.10.2
+    user: root
+    environment:
+      - ELASTIC_HOST=${ELASTIC_HOST}
+      - ELASTIC_API_KEY=${ELASTIC_API_KEY}
+      - CLOUD_ID=${CLOUD_ID}
+    volumes:
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ./app.log:/app/app.log:ro
+    command: >
+      bash -c "
+      filebeat setup -e -strict.perms=false;
+      filebeat -e -strict.perms=false
+      "
