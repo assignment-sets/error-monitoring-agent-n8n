@@ -8,10 +8,13 @@ filebeat.inputs:
       - ndjson:
           target: ""
           add_error_key: true
+          # Ignore non-JSON lines so the harvester doesn't crash on startup logs
+          ignore_decoding_error: true
 
 output.elasticsearch:
   hosts: ["${ELASTIC_HOST}"]
   api_key: "${ELASTIC_API_KEY}"
+  index: "filebeat-v2"
 
 setup.template.enabled: false
 
