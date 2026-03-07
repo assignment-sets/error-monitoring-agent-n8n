@@ -4,14 +4,13 @@ services:
     user: root
     environment:
       - ELASTIC_HOST=${ELASTIC_HOST}
-      - ELASTIC_API_KEY=${ELASTIC_API_KEY}
-      - CLOUD_ID=${CLOUD_ID}
+      - ELASTIC_UNAME=${ELASTIC_UNAME}
+      - ELASTIC_PASSWD=${ELASTIC_PASSWD}
     volumes:
       - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
-      # Mount the whole directory to /app/ so Docker sees the live file updates
       - ./:/app/:ro 
     command: >
       bash -c "
-      filebeat setup -e -strict.perms=false;
-      filebeat -e -strict.perms=false
+      filebeat setup -e;
+      filebeat -e
       "
