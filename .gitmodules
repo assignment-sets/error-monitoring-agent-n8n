@@ -1,0 +1,3 @@
+[submodule "n8n"]
+	path = n8n
+	url = https://github.com/assignment-sets/error-monitoring-agent-n8n-subrepo.git
