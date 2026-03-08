@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+import { cleanStack } from "./utils.js"
 import express from 'express';
 import pino from 'pino';
 import pinoHttp from 'pino-http';
@@ -40,11 +41,11 @@ app.get('/api/data', (req, res) => {
 
 app.use(async (err, req, res, next) => {
     const traceId = req.traceId;
-    
+
     req.log.error({
         msg: "Critical Error Intercepted",
         errorMessage: err.message,
-        errorStack: err.stack,
+        errorStack: cleanStack(err.stack),
         traceId
     });
 
