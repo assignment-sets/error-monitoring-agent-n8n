@@ -33,7 +33,7 @@ app.use((req, res, next) => {
 
 app.get('/api/data', (req, res) => {
     if (req.query.fail === 'true') {
-        throw new Error("Database connection timeout simulated.");
+        throw new Error("Database connection timeout");
     }
     res.status(200).json({ status: 'success', traceId: req.traceId });
 });
